@@ -2,7 +2,7 @@
 # Datatypes (KEYWORD1)
 #######################################
 
-MAX17043			KEYWORD1
+MAX17048			KEYWORD1
 
 #######################################
 # Methods and Functions (KEYWORD2)
