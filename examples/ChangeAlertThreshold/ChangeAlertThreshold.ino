@@ -1,4 +1,4 @@
-#include "MAX17043.h"
+#include "MAX17048.h"
 #include "Wire.h"
 
 MAX17043 batteryMonitor;
@@ -7,7 +7,7 @@ void setup() {
   
   Wire.begin(); 
   Serial.begin(9600);
-  Serial.println("MAX17043 Example: changing alert threshold");
+  Serial.println("MAX17048 Example: changing alert threshold");
   Serial.println();
   
   batteryMonitor.reset();

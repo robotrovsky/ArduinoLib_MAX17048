@@ -1,13 +1,13 @@
-#include "MAX17043.h"
+#include "MAX17048.h"
 #include "Wire.h"
 
-MAX17043 batteryMonitor;
+MAX17048 batteryMonitor;
 
 void setup() {
   
   Wire.begin(); 
   Serial.begin(9600);
-  Serial.println("MAX17043 Example: reading voltage and SoC");
+  Serial.println("MAX17048 Example: reading voltage and SoC");
   Serial.println();
   
   batteryMonitor.reset();

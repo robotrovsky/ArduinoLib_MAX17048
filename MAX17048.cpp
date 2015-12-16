@@ -1,11 +1,12 @@
-// MAX17043/44 library for Arduino
+// MAX17048/49 library for Arduino
 //
-// Luca Dentella (http://www.lucadentella.it)
+// Created by Luca Dentella (http://www.lucadentella.it)
+// Modified by Ali Kianzadeh
 
-#include "MAX17043.h"
+#include "MAX17048.h"
 #include "Wire.h"
 
-float MAX17043::getVCell() {
+float MAX17048::getVCell() {
 
 	byte MSB = 0;
 	byte LSB = 0;
@@ -16,7 +17,7 @@ float MAX17043::getVCell() {
 	//return value * 0.00125;
 }
 
-float MAX17043::getSoC() {
+float MAX17048::getSoC() {
 	
 	byte MSB = 0;
 	byte LSB = 0;
@@ -26,7 +27,7 @@ float MAX17043::getSoC() {
 	return MSB + decimal;	
 }
 
-int MAX17043::getVersion() {
+int MAX17048::getVersion() {
 
 	byte MSB = 0;
 	byte LSB = 0;
@@ -35,7 +36,7 @@ int MAX17043::getVersion() {
 	return (MSB << 8) | LSB;
 }
 
-byte MAX17043::getCompensateValue() {
+byte MAX17048::getCompensateValue() {
 
 	byte MSB = 0;
 	byte LSB = 0;
@@ -44,7 +45,7 @@ byte MAX17043::getCompensateValue() {
 	return MSB;
 }
 
-byte MAX17043::getAlertThreshold() {
+byte MAX17048::getAlertThreshold() {
 
 	byte MSB = 0;
 	byte LSB = 0;
@@ -53,7 +54,7 @@ byte MAX17043::getAlertThreshold() {
 	return 32 - (LSB & 0x1F);
 }
 
-void MAX17043::setAlertThreshold(byte threshold) {
+void MAX17048::setAlertThreshold(byte threshold) {
 
 	byte MSB = 0;
 	byte LSB = 0;
@@ -65,7 +66,7 @@ void MAX17043::setAlertThreshold(byte threshold) {
 	writeRegister(CONFIG_REGISTER, MSB, (LSB & 0xE0) | threshold);
 }
 
-boolean MAX17043::inAlert() {
+boolean MAX17048::inAlert() {
 
 	byte MSB = 0;
 	byte LSB = 0;
@@ -74,7 +75,7 @@ boolean MAX17043::inAlert() {
 	return LSB & 0x20;
 }
 
-void MAX17043::clearAlert() {
+void MAX17048::clearAlert() {
 
 	byte MSB = 0;
 	byte LSB = 0;
@@ -82,36 +83,36 @@ void MAX17043::clearAlert() {
 	readConfigRegister(MSB, LSB);	
 }
 
-void MAX17043::reset() {
+void MAX17048::reset() {
 	
 	writeRegister(COMMAND_REGISTER, 0x00, 0x54);
 }
 
-void MAX17043::quickStart() {
+void MAX17048::quickStart() {
 	
 	writeRegister(MODE_REGISTER, 0x40, 0x00);
 }
 
 
-void MAX17043::readConfigRegister(byte &MSB, byte &LSB) {
+void MAX17048::readConfigRegister(byte &MSB, byte &LSB) {
 
 	readRegister(CONFIG_REGISTER, MSB, LSB);
 }
 
-void MAX17043::readRegister(byte startAddress, byte &MSB, byte &LSB) {
+void MAX17048::readRegister(byte startAddress, byte &MSB, byte &LSB) {
 
-	Wire.beginTransmission(MAX17043_ADDRESS);
+	Wire.beginTransmission(MAX17048_ADDRESS);
 	Wire.write(startAddress);
 	Wire.endTransmission();
 	
-	Wire.requestFrom(MAX17043_ADDRESS, 2);
+	Wire.requestFrom(MAX17048_ADDRESS, 2);
 	MSB = Wire.read();
 	LSB = Wire.read();
 }
 
-void MAX17043::writeRegister(byte address, byte MSB, byte LSB) {
+void MAX17048::writeRegister(byte address, byte MSB, byte LSB) {
 
-	Wire.beginTransmission(MAX17043_ADDRESS);
+	Wire.beginTransmission(MAX17048_ADDRESS);
 	Wire.write(address);
 	Wire.write(MSB);
 	Wire.write(LSB);

@@ -1,13 +1,13 @@
-// MAX17043/44 library for Arduino
+// MAX17048/44 library for Arduino
 //
 // Luca Dentella (http://www.lucadentella.it)
 
 #include "Arduino.h"
 
-#ifndef _MAX17043_H
-#define _MAX17043_H
+#ifndef _MAX17048_H
+#define _MAX17048_H
 
-#define MAX17043_ADDRESS	0x36
+#define MAX17048_ADDRESS	0x36
 
 #define VCELL_REGISTER		0x02
 #define SOC_REGISTER		0x04
@@ -17,7 +17,7 @@
 #define COMMAND_REGISTER	0xFE
 
 
-class MAX17043 {
+class MAX17048 {
 
 	public:
 	
