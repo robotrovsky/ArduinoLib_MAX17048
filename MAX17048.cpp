@@ -83,6 +83,47 @@ void MAX17048::clearAlert() {
 	readConfigRegister(MSB, LSB);	
 }
 
+// HibThr UNIT: %/hr, ActThr UNIT: mV
+void MAX17048::getHibernateConfig(float &hibThrPercentPerHour, float &actThr_mV) {
+
+	byte HibThr = 0;
+	byte ActThr = 0;
+
+	readRegister(HIBRT_REGISTER, HibThr, ActThr);
+	// 0.208%/hr Unit
+	hibThrPercentPerHour = HibThr * 0.208f;
+	// 1.25mV Unit
+	actThr_mV = ActThr * 1.25f;
+}
+
+// 53.04%/hr, 318.75mV (or bigger) = always hibernate (maximums)
+void MAX17048::setHibernateConfig(float hibThrPercentPerHour, float actThr_mV) {
+
+	byte HibThr = (byte) min(max(roundf(hibThrPercentPerHour / 0.208f),0), 255);
+	byte ActThr = (byte) min(max(roundf(actThr_mV / 1.25f),0), 255);
+
+	writeRegister(HIBRT_REGISTER, HibThr, ActThr);
+}
+
+boolean MAX17048::inHibernate() {
+
+	byte MSB = 0;
+	byte LSB = 0;
+
+	readRegister(MODE_REGISTER, MSB, LSB);
+	return MSB & 0x10;
+}
+
+// Approximate charge or discharge rate of the battery in %/h
+float MAX17048::getCrate() {
+
+	byte MSB = 0;
+	byte LSB = 0;
+
+	readRegister(CRATE_REGISTER, MSB, LSB);
+	return ((MSB << 8) | LSB) * 0.208;
+}
+
 void MAX17048::reset() {
 	
 	writeRegister(COMMAND_REGISTER, 0x00, 0x54);
